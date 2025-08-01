@@ -1,0 +1,26 @@
+// Generated from DDD Context Map 'null' at 01.08.2025 10:20:01 CST.
+API description AccountManagementAPI
+usage context COMMUNITY_API for BACKEND_INTEGRATION and FRONTEND_INTEGRATION
+
+
+
+
+endpoint type Accounts
+	exposes
+		operation deposit
+			expecting
+				payload D<double>
+		operation withdraw
+			expecting
+				payload D<double>
+
+
+// Generated from DDD upstream Bounded Context 'AccountManagement' implementing OPEN_HOST_SERVICE (OHS).
+API provider AccountManagementProvider
+	offers Accounts
+	at endpoint location "http://localhost:8000"
+		via protocol "tbd" // The protocol is generated if you specify the implementation technology in CML
+
+
+API client TransferManagementClient
+	consumes Accounts

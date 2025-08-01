@@ -1,0 +1,61 @@
+// In order to generate expected mobile code, what properties should be captured in the DSLs?
+ContextMap BankingAppMap {
+  contains AccountManagement, TransferManagement
+
+  TransferManagement [D]<-[U, OHS] AccountManagement {
+    exposedAggregates Accounts
+  }
+}
+
+BoundedContext AccountManagement {
+  Aggregate Accounts {
+    Entity Account {
+      aggregateRoot
+      AccountId accountId;
+      String accountHolderName;
+      Double balance;
+
+      def deposit(Double amount);
+      def withdraw(Double amount);
+    }
+    Command Deposit {
+      AccountId accountId;
+      Double amount;
+    }
+    Command Withdraw {
+      AccountId accountId;
+      Double amount;
+    }
+    DomainEvent BalanceUpdated {
+      AccountId accountId;
+      Double newBalance;
+    }
+  }
+}
+
+BoundedContext TransferManagement {
+  Aggregate Transfer {
+    Entity TransferRecord {
+      aggregateRoot
+      TransferId transferId;
+      AccountId fromAccountId;
+      AccountId toAccountId;
+      Double amount;
+      DateTime transferDate;
+      def initiateTransfer(AccountId fromAccountId, AccountId toAccountId, Double amount);
+    }
+    Command InitiateTransfer {
+      AccountId fromAccountId;
+      AccountId toAccountId;
+      Double amount;
+    }
+    Event TransferInitiated {
+      TransferId transferId;
+      DateTime transferDate;
+    }
+    Event TransferCompleted {
+      TransferId transferId;
+      DateTime transferDate;
+    }
+  }
+}

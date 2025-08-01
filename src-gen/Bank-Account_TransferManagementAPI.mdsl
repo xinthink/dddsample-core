@@ -1,0 +1,21 @@
+// Generated from DDD Context Map 'null' at 01.08.2025 10:20:01 CST.
+API description TransferManagementAPI
+
+
+data type AccountId P // the type AccountId has not been specified or does not contain any attributes in CML
+data type initiateTransferParameter { "fromAccountId":AccountId, "toAccountId":AccountId, "amount":D<double> }
+
+
+endpoint type Transfer
+	exposes
+		operation initiateTransfer
+			expecting
+				payload initiateTransferParameter
+
+
+API provider TransferManagementProvider
+	offers Transfer
+	at endpoint location "http://localhost:8001"
+		via protocol "tbd" // The protocol is generated if you specify the implementation technology in CML
+
+
